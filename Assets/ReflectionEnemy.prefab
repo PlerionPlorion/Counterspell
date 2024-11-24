@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3263049007734645952}
   - component: {fileID: -5840630629946541229}
   - component: {fileID: 1333617420780722792}
-  - component: {fileID: -6302033356520272107}
+  - component: {fileID: -131921281510694400}
   m_Layer: 0
   m_Name: ReflectionEnemy
   m_TagString: Untagged
@@ -202,7 +202,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-6302033356520272107
+--- !u!114 &-131921281510694400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,7 +211,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 846442991259116371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cd151cd505999441b2ade550374c938, type: 3}
+  m_Script: {fileID: 11500000, guid: cd654acc1f7894a509f3420e5c9ffea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  path: {fileID: 0}
+  ouch: {fileID: 0}
