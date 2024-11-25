@@ -7,35 +7,46 @@ using static Platformer.Core.Simulation;
 namespace Platformer.Mechanics
 {
     /// <summary>
-    /// A simple controller for enemies. Provides movement control over a patrol path.
+    /// A simple controller for enemies. Provides movement control over a patrol path and manages health.
     /// </summary>
-    [RequireComponent(typeof(AnimationController), typeof(Collider2D))]
+    [RequireComponent(typeof(AnimationController), typeof(Collider2D), typeof(Health))]
     public class EnemyController : MonoBehaviour
     {
-        public PatrolPath path;
-        public AudioClip ouch;
+        public PatrolPath path;  // Patrol path for movement
+        public AudioClip ouch;    // Sound for when enemy gets hurt
 
-        internal PatrolPath.Mover mover;
-        internal AnimationController control;
-        internal Collider2D _collider;
-        internal AudioSource _audio;
-        SpriteRenderer spriteRenderer;
+        internal PatrolPath.Mover mover;  // Movement logic for the enemy
+        internal AnimationController control;  // Animation control
+        internal Collider2D _collider;  // Enemy's collider
+        internal AudioSource _audio;  // Audio source for the enemy
+        SpriteRenderer spriteRenderer;  // Sprite renderer for flipping sprite direction
+        private Health enemyHealth;  // Reference to the enemy's health component
 
-        public Bounds Bounds => _collider.bounds;
+        public Bounds Bounds => _collider.bounds;  // Access the bounds of the enemy's collider
 
         void Awake()
         {
+            // Get the necessary components
             control = GetComponent<AnimationController>();
             _collider = GetComponent<Collider2D>();
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            enemyHealth = GetComponent<Health>();  // Get the Health component from the enemy
+
+            // Ensure the Health component exists
+            if (enemyHealth == null)
+            {
+                Debug.LogError("Enemy does not have a Health component.");
+            }
         }
 
+        // Handle collision with the player
         void OnCollisionEnter2D(Collision2D collision)
         {
             var player = collision.gameObject.GetComponent<PlayerController>();
             if (player != null)
             {
+                // Schedule the PlayerEnemyCollision event when the player collides with the enemy
                 var ev = Schedule<PlayerEnemyCollision>();
                 ev.player = player;
                 ev.enemy = this;
@@ -44,12 +55,33 @@ namespace Platformer.Mechanics
 
         void Update()
         {
+            // Handle patrol movement if a patrol path is assigned
             if (path != null)
             {
-                if (mover == null) mover = path.CreateMover(control.maxSpeed * 0.5f);
-                control.move.x = Mathf.Clamp(mover.Position.x - transform.position.x, -1, 1);
+                if (mover == null) 
+                    mover = path.CreateMover(control.maxSpeed * 0.5f);  // Create mover if not already assigned
+                control.move.x = Mathf.Clamp(mover.Position.x - transform.position.x, -1, 1);  // Move the enemy
             }
         }
 
+        // Method to handle damage when the enemy collides with the player
+        public void TakeDamage()
+        {
+            if (enemyHealth != null)
+            {
+                // Decrement enemy health
+                enemyHealth.Decrement();
+                if (!enemyHealth.IsAlive)
+                {
+                    // Play death animation or sound
+                    if (ouch != null)
+                    {
+                        _audio.PlayOneShot(ouch);
+                    }
+                    // Perform actions when the enemy dies, like playing a death animation or sound
+                    Destroy(gameObject);  // Destroy the enemy when health reaches zero
+                }
+            }
+        }
     }
 }
