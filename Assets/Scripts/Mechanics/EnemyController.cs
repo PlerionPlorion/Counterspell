@@ -9,7 +9,7 @@ namespace Platformer.Mechanics
     /// <summary>
     /// A simple controller for enemies. Provides movement control over a patrol path and manages health.
     /// </summary>
-    [RequireComponent(typeof(AnimationController), typeof(Collider2D), typeof(Health))]
+    [RequireComponent(typeof(AnimationController), typeof(Collider2D))]
     public class EnemyController : MonoBehaviour
     {
         public PatrolPath path;  // Patrol path for movement
@@ -20,7 +20,7 @@ namespace Platformer.Mechanics
         internal Collider2D _collider;  // Enemy's collider
         internal AudioSource _audio;  // Audio source for the enemy
         SpriteRenderer spriteRenderer;  // Sprite renderer for flipping sprite direction
-        private Health enemyHealth;  // Reference to the enemy's health component
+        //private Health enemyHealth;  // Reference to the enemy's health component
 
         public Bounds Bounds => _collider.bounds;  // Access the bounds of the enemy's collider
 
@@ -31,13 +31,13 @@ namespace Platformer.Mechanics
             _collider = GetComponent<Collider2D>();
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            enemyHealth = GetComponent<Health>();  // Get the Health component from the enemy
+            //enemyHealth = GetComponent<Health>();  // Get the Health component from the enemy
 
             // Ensure the Health component exists
-            if (enemyHealth == null)
-            {
-                Debug.LogError("Enemy does not have a Health component.");
-            }
+          //  if (enemyHealth == null)
+          //  {
+           //     Debug.LogError("Enemy does not have a Health component.");
+           // }
         }
 
         // Handle collision with the player
@@ -65,23 +65,6 @@ namespace Platformer.Mechanics
         }
 
         // Method to handle damage when the enemy collides with the player
-        public void TakeDamage()
-        {
-            if (enemyHealth != null)
-            {
-                // Decrement enemy health
-                enemyHealth.Decrement();
-                if (!enemyHealth.IsAlive)
-                {
-                    // Play death animation or sound
-                    if (ouch != null)
-                    {
-                        _audio.PlayOneShot(ouch);
-                    }
-                    // Perform actions when the enemy dies, like playing a death animation or sound
-                    Destroy(gameObject);  // Destroy the enemy when health reaches zero
-                }
-            }
-        }
+       
     }
 }

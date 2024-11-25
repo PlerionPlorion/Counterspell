@@ -21,6 +21,10 @@ namespace Platformer.Mechanics
         // Increment health and add hearts
         public void Increment()
         {
+            if (currentHP >= 4)
+            {
+
+            }
             if (currentHP < maxHP)
             {
                 currentHP = currentHP + 1;
@@ -38,6 +42,7 @@ namespace Platformer.Mechanics
                     heart2.SetActive(true);
                 }
             }
+
             Debug.Log($"Player Health: {currentHP}/{maxHP}");
         }
 

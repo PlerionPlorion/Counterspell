@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3263049007734645952}
   - component: {fileID: -5840630629946541229}
   - component: {fileID: 1333617420780722792}
-  - component: {fileID: 2251171413076968422}
   - component: {fileID: -664560613865885095}
   m_Layer: 0
   m_Name: ReflectionEnemy
@@ -203,19 +202,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2251171413076968422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 846442991259116371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffad43bb006db4856a9c527b89b48db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 3
 --- !u!114 &-664560613865885095
 MonoBehaviour:
   m_ObjectHideFlags: 0
