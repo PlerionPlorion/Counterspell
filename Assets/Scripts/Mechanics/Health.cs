@@ -5,48 +5,38 @@ using static Platformer.Core.Simulation;
 
 namespace Platformer.Mechanics
 {
-    /// <summary>
-    /// Represebts the current vital statistics of some game entity.
-    /// </summary>
     public class Health : MonoBehaviour
     {
-        /// <summary>
-        /// The maximum hit points for the entity.
-        /// </summary>
-        public int maxHP = 1;
+        public int maxHP = 3;
 
-        /// <summary>
-        /// Indicates if the entity should be considered 'alive'.
-        /// </summary>
+        private int currentHP;
+
+        public int CurrentHP => currentHP;  // Expose current HP for easy access
+
         public bool IsAlive => currentHP > 0;
 
-        int currentHP;
-
-        /// <summary>
-        /// Increment the HP of the entity.
-        /// </summary>
         public void Increment()
         {
-            currentHP = Mathf.Clamp(currentHP + 1, 0, maxHP);
+            currentHP = currentHP + 1;
         }
 
-        /// <summary>
-        /// Decrement the HP of the entity. Will trigger a HealthIsZero event when
-        /// current HP reaches 0.
-        /// </summary>
+        public void HPOnRespawn()
+        {
+            currentHP = 4;
+        }
+
         public void Decrement()
         {
-            currentHP = Mathf.Clamp(currentHP - 1, 0, maxHP);
+            currentHP = currentHP - 1;
+            // Trigger necessary actions when health reaches zero
+            Debug.Log($"Player Health: {currentHP}/3");
             if (currentHP == 0)
-            {
-                var ev = Schedule<HealthIsZero>();
-                ev.health = this;
-            }
+    {
+        Debug.Log("Health is zero. Scheduling PlayerDeath.");
+        Schedule<PlayerDeath>();
+    }
         }
 
-        /// <summary>
-        /// Decrement the HP of the entitiy until HP reaches 0.
-        /// </summary>
         public void Die()
         {
             while (currentHP > 0) Decrement();

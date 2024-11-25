@@ -30,6 +30,7 @@ namespace Platformer.Gameplay
                     enemyHealth.Decrement();
                     if (!enemyHealth.IsAlive)
                     {
+                        player.health.Increment();
                         Schedule<EnemyDeath>().enemy = enemy;
                         player.Bounce(2);
                     }
@@ -46,7 +47,10 @@ namespace Platformer.Gameplay
             }
             else
             {
-                Schedule<PlayerDeath>();
+                // Handle player's health decrement when hitting the enemy head-on
+                player.health.Decrement(); // Decrease health on collision
+                    // Debug.Log($"Player Health: {player.health.CurrentHP}/{player.health.maxHP}");
+                  //  Schedule<PlayerDeath>(); // Trigger player death event if health reaches zero
             }
         }
     }
